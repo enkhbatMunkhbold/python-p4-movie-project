@@ -68,7 +68,7 @@ If a user wants to log in, they can click the **Login** button located at the to
 A login form will appear in a window.
 The user must enter their **Username** and **Password**, then click the **Login** button at the bottom of the form.
 If the login is successful, the user will be redirected to their **Profile** page.
-If the login fails, an error message will be displayed.
+If the login fails, an error message "Username or password is incorrect" will be displayed.
 
 ## Profile
 
