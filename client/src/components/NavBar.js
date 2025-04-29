@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function NavBar({ user, onLogout }) {
 
@@ -15,21 +14,34 @@ function NavBar({ user, onLogout }) {
     });
   }
 
+  const handleNavigation = () => {
+    // Clear any error state when navigating
+    if (window.location.pathname === "/login") {
+      const loginComponent = document.querySelector(".login-form");
+      if (loginComponent) {
+        const errorElement = loginComponent.querySelector(".error-message");
+        if (errorElement) {
+          errorElement.style.display = "none";
+        }
+      }
+    }
+  };
+
   return (
     <header>
       <div>
-        <Link to="/">Home</Link>
+        <Link to="/" onClick={handleNavigation}>Home</Link>
       </div>
       <div>
         {user ? (
           <>
-            <Link to="/profile">Profile</Link>
+            <Link to="/profile" onClick={handleNavigation}>Profile</Link>
             <button onClick={handleLogoutClick}>Logout</button>
           </>
         ) : (
           <>
-            <Link to="/signup">Signup</Link>
-            <Link to="/login">Login</Link>
+            <Link to="/signup" onClick={handleNavigation}>Signup</Link>
+            <Link to="/login" onClick={handleNavigation}>Login</Link>
           </>
         )}
       </div>
