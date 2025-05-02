@@ -40,6 +40,8 @@ class User(db.Model, SerializerMixin):
     def validate_username(self, _, username):
         if not username:
             raise ValueError("Username cannot be empty")
+        if not isinstance(username, str):
+            raise ValueError("Username must be a string")
         if len(username) < 3:
             raise ValueError("Username must be at least 3 characters long")
         return username
@@ -68,9 +70,14 @@ class Movie(db.Model, SerializerMixin):
     
     @validates('price')
     def validate_price(self, _, price):
+        if not isinstance(price, (int, float)):
+            raise ValueError("Price must be a number")
         if price <= 0:
             raise ValueError("Price must be greater than 0")
         return price
+    
+    def __repr__(self):
+        return f"<Movie {self.title}, {self.genre}, {self.price}>"
   
 
 class Ticket(db.Model, SerializerMixin):
