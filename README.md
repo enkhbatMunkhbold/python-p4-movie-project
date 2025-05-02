@@ -89,4 +89,4 @@ If a user no longer wishes to watch a movie, they can delete the ticket by click
 
 Here is a GIF of the app to demonstrate how **Movie Tickets** app works.
 
-![project-demo](https://github.com/enkhbatMunkhbold/phase-2-project/assets/33409864/cc401550-b840-45e7-ada5-1d961d18ffe6)
+
