@@ -15,7 +15,6 @@ function NavBar({ user, onLogout }) {
   }
 
   const handleNavigation = () => {
-    // Clear any error state when navigating
     if (window.location.pathname === "/login") {
       const loginComponent = document.querySelector(".login-form");
       if (loginComponent) {
@@ -30,7 +29,7 @@ function NavBar({ user, onLogout }) {
   return (
     <header>
       <div>
-        <Link to="/" onClick={handleNavigation}>Home</Link>
+        {user && <Link to="/" onClick={handleNavigation}>Home</Link>}
       </div>
       <div>
         {user ? (

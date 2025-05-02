@@ -7,6 +7,7 @@ const UserProfile = ({ user, setUser }) => {
 
 
   function handleDeleteTicket(ticketId) {
+    debugger
     setUser(prevUser => ({
       ...prevUser,
       tickets: prevUser.tickets.filter(ticket => ticket.id !== ticketId),

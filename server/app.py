@@ -11,12 +11,12 @@ from models import User, Movie, Ticket
 def index():
     return '<h1>Project Server</h1>'
 
-class Users(Resource):
-    def get(self):
-        users = [user.to_dict() for user in User.query.all()]
-        return users, 200
+# class Users(Resource):
+#     def get(self):
+#         users = [user.to_dict() for user in User.query.all()]
+#         return users, 200
 
-api.add_resource(Users, '/users')
+# api.add_resource(Users, '/users')
 
 
 class Movies(Resource):

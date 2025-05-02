@@ -1,50 +1,50 @@
 import React from 'react';
 import Movie from './Movie';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+// import { useFormik } from 'formik';
+// import * as Yup from 'yup';
 import "../styling/movie.css";
 
 function Home({ user, setUser, movies, setMovies, setTickets }) {
 
-  const formSchema = Yup.object().shape({
-    title: Yup.string()
-      .required('Movie should have a title')
-      .min(1, 'At least one character is required'),
-    genre: Yup.string()
-      .required('Genre is required'),
-    price: Yup.number()
-      .required('Price is required')
-      .min(1, 'Price must be at least $1'),
-  })
+  // const formSchema = Yup.object().shape({
+  //   title: Yup.string()
+  //     .required('Movie should have a title')
+  //     .min(1, 'At least one character is required'),
+  //   genre: Yup.string()
+  //     .required('Genre is required'),
+  //   price: Yup.number()
+  //     .required('Price is required')
+  //     .min(1, 'Price must be at least $1'),
+  // })
 
-  const formik = useFormik({
-    initialValues: {
-      title: '',
-      genre: '',
-      price: '',
-    },
-    validationSchema: formSchema,
-    onSubmit: async (values, { resetForm }) => {
-      try {
-        const response = await fetch('/movies', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(values),
-        });
-        if (response.ok) {
-          const newMovie = await response.json();
-          setMovies((prevMovies) => [...prevMovies, newMovie]);
-          resetForm(); 
-        } else {
-          console.error('Failed to create movie');
-        }
-      } catch (error) {
-        console.error('Error creating movie:', error);
-      }
-    },
-  });
+  // const formik = useFormik({
+  //   initialValues: {
+  //     title: '',
+  //     genre: '',
+  //     price: '',
+  //   },
+  //   validationSchema: formSchema,
+  //   onSubmit: async (values, { resetForm }) => {
+  //     try {
+  //       const response = await fetch('/movies', {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //         body: JSON.stringify(values),
+  //       });
+  //       if (response.ok) {
+  //         const newMovie = await response.json();
+  //         setMovies((prevMovies) => [...prevMovies, newMovie]);
+  //         resetForm(); 
+  //       } else {
+  //         console.error('Failed to create movie');
+  //       }
+  //     } catch (error) {
+  //       console.error('Error creating movie:', error);
+  //     }
+  //   },
+  // });
 
   function renderMovies(list) {
     return list.map((movie) => {
@@ -78,7 +78,7 @@ function Home({ user, setUser, movies, setMovies, setTickets }) {
         <h2>List of Movies</h2>
         <ul className="list">{renderMovies(movies)}</ul>
         <br />
-        <hr />
+        {/* <hr />
         <h2>Create a New Movie</h2>
         <form onSubmit={formik.handleSubmit} className="movie-form">
           <div className="form-group">
@@ -129,7 +129,7 @@ function Home({ user, setUser, movies, setMovies, setTickets }) {
           <button type="submit" className="btn btn-primary">
             Create Movie
           </button>
-        </form>
+        </form> */}
       </div>
     )
   }
