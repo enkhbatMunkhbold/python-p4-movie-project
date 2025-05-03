@@ -4,7 +4,7 @@ import Movie from './Movie';
 // import * as Yup from 'yup';
 import "../styling/movie.css";
 
-function Home({ user, setUser, movies, setMovies, setTickets }) {
+function Home({ user, setUser, movies }) {
 
   // const formSchema = Yup.object().shape({
   //   title: Yup.string()
@@ -57,7 +57,7 @@ function Home({ user, setUser, movies, setMovies, setTickets }) {
   }
 
   const renderPurchaseMovies = movies.map( movie => {
-    return <Movie key={movie.id} user={user} setUser={setUser} movie={movie} setTickets={setTickets} />
+    return <Movie key={movie.id} user={user} setUser={setUser} movie={movie} />
     })
 
   if (user) {

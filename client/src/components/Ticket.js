@@ -27,7 +27,6 @@ const Ticket = ({ ticket, onEditTicket, onDeleteTicket }) => {
       
       if (response.ok) {
         onDeleteTicket(ticket.id);
-        // window.location.reload();
       }
     } catch (error) {
       console.error('Error deleting ticket:', error);

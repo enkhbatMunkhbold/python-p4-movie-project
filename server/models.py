@@ -58,7 +58,7 @@ class Movie(db.Model, SerializerMixin):
     tickets = db.relationship('Ticket', back_populates='movie', cascade='all, delete-orphan')
     users = association_proxy('tickets', 'user')
 
-    serialize_rules = ('-users',)
+    serialize_rules = ('-users', '-movies.tickets',)
 
     @validates('title', 'genre')
     def validate_non_empty_string(self, key, value):

@@ -10,7 +10,6 @@ function App() {
 
   const [user, setUser] = useState(null);
   const [movies, setMovies] = useState([]);
-  const [tickets, setTickets] = useState([]);
 
   useEffect(() => {
     fetch("/check_session")
@@ -65,10 +64,9 @@ function App() {
                   setUser={setUser} 
                   movies={movies} 
                   setMovies={setMovies}
-                  setTickets={setTickets} 
                 />} 
               /> 
-            <Route path="/profile" element={<UserProfile tickets={tickets} user={user} setUser={setUser}/>} />
+            <Route path="/profile" element={<UserProfile user={user} setUser={setUser}/>}/>
           </Routes>
         ) : (
           <Routes>
@@ -81,7 +79,6 @@ function App() {
                   setUser={setUser} 
                   movies={movies} 
                   setMovies={setMovies}
-                  setTickets={setTickets} 
                 />} 
               /> 
           </Routes>
