@@ -1,28 +1,9 @@
 import React from 'react'
-import Ticket from './Ticket'
+import MovieCard from './MovieCard'
 
 
 const UserProfile = ({ user, setUser }) => {
-  if (!user) return <div>Loading...</div>;
-
-
-  function handleDeleteTicket(ticketId) {
-    console.log("Deleted ticket ID:", ticketId);
-    setUser(prevUser => ({
-      ...prevUser,
-      tickets: prevUser.tickets.filter(ticket => ticket.id !== ticketId),
-    }));
-  }
-
-  function handleEditTicket(editedTicket) {
-    console.log("Edited ticket:", editedTicket);
-    setUser(prevUser => ({
-      ...prevUser,
-      tickets: prevUser.tickets.map(ticket => 
-        ticket.id === editedTicket.id ? editedTicket : ticket
-      ),
-    }));
-  }
+  if (!user) return <div>Loading...</div>;  
 
   function renderUserMovies() {
     const uniqueMovies = new Map();
@@ -33,11 +14,7 @@ const UserProfile = ({ user, setUser }) => {
     });
     
     return Array.from(uniqueMovies.values()).map(movie => (
-      <li key={movie.id}>
-        <h3>{movie.title}</h3>
-        <p>Genre: {movie.genre}</p>
-        <p>Price: ${movie.price.toFixed(2)}</p>
-      </li>
+      <MovieCard key={movie.id} movie={movie} setUser={setUser}/>
     ));
   }
 
@@ -51,18 +28,8 @@ const UserProfile = ({ user, setUser }) => {
             {renderUserMovies()}
           </ul>
         ) : (
-          <p>No movies purchased yet.</p>
-        )}
-        <h3>Your Tickets:</h3>
-        {user.tickets && user.tickets.length > 0 ? (
-          <ul>
-            {user.tickets.map(ticket => (
-              <Ticket key={ticket.id} ticket={ticket} onEditTicket={handleEditTicket} onDeleteTicket={handleDeleteTicket}/>
-            ))}
-          </ul>
-        ) : (
-          <p>No tickets purchased yet.</p>
-        )}
+          <p>No movie to watch yet.</p>
+        )}        
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import SignUp from "./SignUp";
 import Home from "./Home";
 import Login from "./Login";
 import UserProfile from "./UserProfile";
+import Tickets from "./Tickets";
 
 function App() {
 
@@ -67,6 +68,7 @@ function App() {
                 />} 
               /> 
             <Route path="/profile" element={<UserProfile user={user} setUser={setUser}/>}/>
+            <Route path="/tickets" element={<Tickets user={user} setUser={setUser} />} />
           </Routes>
         ) : (
           <Routes>
