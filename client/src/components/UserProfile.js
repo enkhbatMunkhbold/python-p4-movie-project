@@ -3,10 +3,14 @@ import MovieCard from './MovieCard'
 
 
 const UserProfile = ({ user, setUser }) => {
+
   if (!user) return <div>Loading...</div>;  
 
+  console.log("user from UserProfile:", user);
+  
   function renderUserMovies() {
     const uniqueMovies = new Map();
+
     user.tickets.forEach(ticket => {
       if (ticket.movie && !uniqueMovies.has(ticket.movie.id)) {
         uniqueMovies.set(ticket.movie.id, ticket.movie);

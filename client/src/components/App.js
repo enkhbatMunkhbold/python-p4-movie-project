@@ -10,7 +10,7 @@ import Tickets from "./Tickets";
 function App() {
 
   const [user, setUser] = useState(null);
-  const [movies, setMovies] = useState([]);
+  const [ movies, setMovies ] = useState([])
 
   useEffect(() => {
     fetch("/check_session")
@@ -58,15 +58,7 @@ function App() {
       <main>
         {user ? (
           <Routes>
-            <Route path="/" 
-              element={
-                <Home 
-                  user={user} 
-                  setUser={setUser} 
-                  movies={movies} 
-                  setMovies={setMovies}
-                />} 
-              /> 
+            <Route path="/" element={<Home user={user} setUser={setUser} movies={movies} />} />
             <Route path="/profile" element={<UserProfile user={user} setUser={setUser}/>}/>
             <Route path="/tickets" element={<Tickets user={user} setUser={setUser} />} />
           </Routes>
@@ -74,15 +66,7 @@ function App() {
           <Routes>
             <Route path="/signup" element={<SignUp setUser={setUser} />} />
             <Route path="/login" element={<Login setUser={setUser} />} />
-            <Route path="/" 
-              element={
-                <Home 
-                  user={user} 
-                  setUser={setUser} 
-                  movies={movies} 
-                  setMovies={setMovies}
-                />} 
-              /> 
+            <Route path="/" element={<Home user={user} setUser={setUser} movies={movies} />} />
           </Routes>
         )}
       </main>

@@ -97,6 +97,15 @@ class Ticket(db.Model, SerializerMixin):
 
     serialize_rules = ('-user.tickets', '-movie.tickets')
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "ticket_number": self.ticket_number,
+            "total_price": self.total_price,
+            "time": self.time,
+            "movie": self.movie.to_dict() if self.movie else None
+    }
+
     @validates('total_price')
     def validate_price(self, _, price):
         if price <= 0:
