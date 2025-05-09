@@ -51,6 +51,9 @@ const Ticket = ({ ticket, onEditTicket, onDeleteTicket }) => {
 
       if (response.ok) {
         const updatedTicketData = await response.json();
+
+        console.log("updatedTicketData from Ticket:", updatedTicketData);
+
         onEditTicket(updatedTicketData);
         setIsEditing(false);
       } else {
@@ -130,7 +133,7 @@ const Ticket = ({ ticket, onEditTicket, onDeleteTicket }) => {
                   className="submit-button"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? 'Updating...' : 'Submit'}
+                  {isSubmitting ? 'Updating...' : 'Save'}
                 </button>
                 <button
                   type="button"

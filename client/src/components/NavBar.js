@@ -2,7 +2,6 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 function NavBar({ user, onLogout }) {
-
   const navigate = useNavigate();
 
   function handleLogoutClick() {
@@ -31,7 +30,7 @@ function NavBar({ user, onLogout }) {
       <div>
         {user && <Link to="/" onClick={handleNavigation}>Home</Link>}
       </div>
-      <div>
+      <div className="nav-links">
         {user ? (
           <>
             <Link to="/profile" onClick={handleNavigation}>Profile</Link>

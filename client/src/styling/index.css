@@ -21,6 +21,11 @@ header {
   border-bottom: 1px solid #ccc;
 }
 
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
 header a,
 header button, .btn {
   font-size: 1rem;
@@ -89,37 +94,3 @@ form button[type="submit"] {
   color: red;
   font-size: 0.9rem;
 }
-
-/* .user-profile {
-  margin: 2rem;
-}
-
-.user-profile h3 {
-  color: salmon;
-  margin-bottom: 1rem;
-}
-
-.user-profile ul {
-  list-style: none;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
-}
-
-.user-profile li {
-  background-color: #fff8e7;
-  border: 1px solid salmon;
-  padding: 1rem;
-  border-radius: 4px;
-} */
-
-/* .user-profile h4 {
-  color: salmon;
-  margin: 0 0 0.5rem 0;
-}
-
-.user-profile p {
-  margin: 0.25rem 0;
-  color: #666;
-} */

@@ -58,9 +58,9 @@ function App() {
       <main>
         {user ? (
           <Routes>
-            <Route path="/" element={<Home user={user} setUser={setUser} movies={movies} />} />
-            <Route path="/profile" element={<UserProfile user={user} setUser={setUser}/>}/>
-            <Route path="/tickets" element={<Tickets user={user} setUser={setUser} />} />
+            <Route path="/" element={<Home user={user} setUser={setUser} movies={movies}/>} />
+            <Route path="/profile" element={<UserProfile user={user}/>}/>
+            <Route path="/tickets" element={<Tickets user={user} setUser={setUser}/>} />
           </Routes>
         ) : (
           <Routes>

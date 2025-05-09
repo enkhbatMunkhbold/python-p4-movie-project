@@ -13,10 +13,26 @@ def index():
 
 class Movies(Resource):
     def get(self):
-        movies = [movie.to_dict() for movie in Movie.query.all()]
+        movies = [movie.to_dict(rules=['-tickets']) for movie in Movie.query.all()]
         return make_response(jsonify(movies), 200)
     
 api.add_resource(Movies, '/movies')
+
+class MovieById(Resource):
+    def get(self, movie_id):
+        movie = Movie.query.get(movie_id)
+        if not movie:
+            return {'error': 'Movie not found'}, 404
+        return make_response(jsonify(movie.to_dict()), 200)
+    
+    def delete(self, movie_id):
+        movie = Movie.query.get(movie_id)
+        if not movie:
+            return {'error': 'Movie not found'}, 404
+        db.session.delete(movie)
+        db.session.commit()
+        return {}, 204
+api.add_resource(MovieById, '/movies/<int:movie_id>')
 
 # class UserMovies(Resource):
 #     def get(self):

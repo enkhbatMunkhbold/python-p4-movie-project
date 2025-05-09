@@ -47,7 +47,6 @@ const Movie = ({ user, setUser, movie }) => {
               ticket: newTicket
             }
           })
-          // setTickets((prevTickets) => [...prevTickets, newTicket])
           setUser((prevUser) => ({
             ...prevUser,
             tickets: [...prevUser.tickets, newTicket]
