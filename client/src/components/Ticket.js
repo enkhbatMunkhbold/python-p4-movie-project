@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import '../styling/ticket.css'
 
 
-const Ticket = ({ ticket, onEditTicket, onDeleteTicket }) => {
+const Ticket = ({ ticket, onEditSave, onDeleteTicket }) => {
 
   const [isEditing, setIsEditing] = useState(false);
   const times = ['12:00 pm', '2:00 pm', '4:00 pm', '6:00 pm', '8:00 pm']
@@ -54,13 +54,14 @@ const Ticket = ({ ticket, onEditTicket, onDeleteTicket }) => {
 
         console.log("updatedTicketData from Ticket:", updatedTicketData);
 
-        onEditTicket(updatedTicketData);
+        onEditSave(updatedTicketData);
         setIsEditing(false);
       } else {
         const errorData = await response.json();
         setErrors({ submit: errorData.error || "Failed to update ticket" });
        }
     } catch (error) {
+      console.error('Error updating ticket:', error);
       setErrors({ submit: "An error occurred while processing your request" });
     } finally {
       setSubmitting(false);

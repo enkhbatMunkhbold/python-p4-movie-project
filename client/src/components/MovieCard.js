@@ -5,16 +5,32 @@ import Ticket from './Ticket';
 const MovieCard = ({ movie, setUser }) => {
   if(!movie) return null
 
-  console.log("movie from MovieCard:", movie);
+  console.log("movie from MovieCard:", movie); 
+
+  function handleDeleteTicket(ticketId) {
+    setUser(prevUser => ({
+      ...prevUser,
+      tickets: prevUser.tickets.filter(ticket => ticket.id !== ticketId),
+    }));
+  }
+
+  function handleEditTicket(editedTicket) {
+    console.log("editedTicket from Tickets:", editedTicket);
+    setUser(prevUser => ({
+      ...prevUser,
+      tickets: prevUser.tickets.map(ticket => 
+        ticket.id === editedTicket.id ? editedTicket : ticket
+      ),
+    }));
+  }
 
   function handleMovieClick() {
     movie.tickets.forEach(ticket => {
       <Ticket
         key={ticket.id}
         ticket={ticket}
-        setUser={setUser}
-        movie={movie}
-        user={ticket.user}
+        onEditTicket={handleEditTicket}
+        onDeleteTicket={handleDeleteTicket}
       />
     });
   }
