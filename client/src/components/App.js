@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./NavBar";
 import SignUp from "./SignUp";
@@ -9,8 +9,7 @@ import Tickets from "./Tickets";
 
 function App() {
 
-  const [user, setUser] = useState(null);
-  const [ movies, setMovies ] = useState([])
+  const [user, setUser] = useState(null);  
 
   useEffect(() => {
     fetch("/check_session")
@@ -24,23 +23,7 @@ function App() {
       console.error("Error checking session:", error)
       setUser(null)
     });
-  }, []);
-
-  useEffect(() => {
-    fetch("/movies")
-    .then(r => {
-      if(r.ok) {
-        r.json().then(movies => setMovies(movies));
-      } else {
-        console.error("Error fetching movies:", r.statusText);
-        setMovies([]);
-      }
-    })
-    .catch(error => {
-      console.error("Error fetching movies:", error)
-      setMovies([])
-    });
-  }, []);
+  }, []);  
 
   function handleLogout() {   
     fetch("/logout", {
@@ -58,15 +41,17 @@ function App() {
       <main>
         {user ? (
           <Routes>
-            <Route path="/" element={<Home user={user} setUser={setUser} movies={movies}/>} />
+            <Route path="/" element={<Home user={user} setUser={setUser} />} />
             <Route path="/profile" element={<UserProfile user={user}/>}/>
             <Route path="/tickets" element={<Tickets user={user} setUser={setUser}/>} />
+            <Route path="*" element={<h1>Page Not Found</h1>} />
           </Routes>
         ) : (
           <Routes>
             <Route path="/signup" element={<SignUp setUser={setUser} />} />
             <Route path="/login" element={<Login setUser={setUser} />} />
-            <Route path="/" element={<Home user={user} setUser={setUser} movies={movies} />} />
+            <Route path="/" element={<Home user={user} setUser={setUser} />} />
+            <Route path="*" element={<h1>Page Not Found</h1>} />
           </Routes>
         )}
       </main>

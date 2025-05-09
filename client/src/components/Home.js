@@ -1,8 +1,26 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import Movie from './Movie';
 import "../styling/movie.css";
 
-function Home({ user, setUser, movies }) {
+function Home({ user, setUser }) {
+
+  const [ movies, setMovies ] = useState([])
+
+  useEffect(() => {
+    fetch("/movies")
+    .then(r => {
+      if(r.ok) {
+        r.json().then(movies => setMovies(movies));
+      } else {
+        console.error("Error fetching movies:", r.statusText);
+        setMovies([]);
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching movies:", error)
+      setMovies([])
+    });
+  }, []);
 
   function renderMovies(list) {
     return list.map((movie) => {
