@@ -1,9 +1,15 @@
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Ticket from './Ticket'
 
 const Tickets = ({ user, setUser }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { movie } = location.state || {};
+
+  if (!movie) {
+    navigate('/');
+    return null;
+  }
 
   function handleDeleteTicket(ticketId) {
     setUser(prevUser => ({
@@ -13,34 +19,41 @@ const Tickets = ({ user, setUser }) => {
   }
 
   function handleEditSave(editedTicket) {
-    console.log("editedTicket from Tickets:", editedTicket);
-    setUser(prevUser => ({
-      ...prevUser,
-      tickets: prevUser.tickets.map(ticket => 
+    setUser(prevUser => {
+      const updatedTickets = prevUser.tickets.map(ticket => 
         ticket.id === editedTicket.id ? editedTicket : ticket
-      ),
-    }));
+      );
+      return {
+        ...prevUser,
+        tickets: updatedTickets
+      };
+    });
   }
 
   function renderTickets() {
+    if (!movie.tickets) return null;
+    
     const userTickets = movie.tickets.filter(ticket => ticket.user_id === user.id);
     return userTickets.map(ticket => (
-      <Ticket key={ticket.id} ticket={ticket} onEditSave={handleEditSave} onDeleteTicket={handleDeleteTicket}/>
+      <Ticket 
+        key={ticket.id} 
+        ticket={ticket} 
+        onEditSave={handleEditSave} 
+        onDeleteTicket={handleDeleteTicket}
+      />
     ));
   }
 
   return (
-    <div>
-      <>
-        <h3>Your Tickets for {movie.title}:</h3>
-        {movie.tickets && movie.tickets.length > 0 ? (
-          <ul>
-            {renderTickets()}
-          </ul>
-        ) : (
-          <p>No tickets purchased yet.</p>
-        )}
-      </>      
+    <div className="tickets-container">
+      <h3>Your Tickets for {movie.title}:</h3>
+      {movie.tickets && movie.tickets.length > 0 ? (
+        <ul className="tickets-list">
+          {renderTickets()}
+        </ul>
+      ) : (
+        <p>No tickets purchased yet.</p>
+      )}
     </div>
   )
 }

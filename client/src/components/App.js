@@ -42,7 +42,7 @@ function App() {
         {user ? (
           <Routes>
             <Route path="/" element={<Home user={user} setUser={setUser} />} />
-            <Route path="/profile" element={<UserProfile user={user}/>}/>
+            <Route path="/profile" element={<UserProfile user={user} setUser={setUser}/>}/>
             <Route path="/tickets" element={<Tickets user={user} setUser={setUser}/>} />
             <Route path="*" element={<h1>Page Not Found</h1>} />
           </Routes>

@@ -17,7 +17,7 @@ const UserProfile = ({ user, setUser }) => {
     });
     
     return Array.from(uniqueMovies.values()).map(movie => (
-      <MovieCard key={movie.id} movie={movie} setUser={setUser}/>
+      <MovieCard key={movie.id} movie={movie} user={user} setUser={setUser}/>
     ));
   }
 
