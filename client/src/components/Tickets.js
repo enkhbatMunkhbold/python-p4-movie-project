@@ -1,46 +1,67 @@
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useContext, useState } from 'react';
+import UserContext from '../context/UserContext';
 import Ticket from './Ticket'
 
-const Tickets = ({ user, setUser }) => {
+const Tickets = () => {
+  const { user, setUser } = useContext(UserContext);
   const location = useLocation();
   const navigate = useNavigate();
-  const { movie } = location.state || {};
+  const [currentMovie, setCurrentMovie] = useState(location.state?.movie);
 
-  if (!movie) {
+  if (!currentMovie) {
     navigate('/');
     return null;
   }
 
   function handleDeleteTicket(ticketId) {
-    console.log("Before delete:", user);
+    // Update user state
     setUser(prevUser => {
       const updatedUser = {
         ...prevUser,
         tickets: prevUser.tickets.filter(ticket => ticket.id !== ticketId),
       };
-      console.log("After delete:", updatedUser);
       return updatedUser;
     });
-    navigate(-1); // Navigate back to the previous page after updating
+
+    // Update movie state
+    setCurrentMovie(prevMovie => ({
+      ...prevMovie,
+      tickets: prevMovie.tickets.filter(ticket => ticket.id !== ticketId)
+    }));
   }
 
   function handleEditSave(editedTicket) {
+    // Ensure the edited ticket has the movie data
+    const ticketWithMovie = {
+      ...editedTicket,
+      movie: currentMovie
+    };
+
+    // Update user state
     setUser(prevUser => {
       const updatedTickets = prevUser.tickets.map(ticket => 
-        ticket.id === editedTicket.id ? editedTicket : ticket
+        ticket.id === editedTicket.id ? ticketWithMovie : ticket
       );
       return {
         ...prevUser,
         tickets: updatedTickets
       };
     });
-    navigate(-1); // Navigate back to the previous page after updating
+
+    // Update movie state
+    setCurrentMovie(prevMovie => ({
+      ...prevMovie,
+      tickets: prevMovie.tickets.map(ticket => 
+        ticket.id === editedTicket.id ? ticketWithMovie : ticket
+      )
+    }));
   }
 
   function renderTickets() {
-    if (!movie.tickets) return null;
+    if (!currentMovie.tickets) return null;
     
-    const userTickets = movie.tickets.filter(ticket => ticket.user_id === user.id);
+    const userTickets = currentMovie.tickets.filter(ticket => ticket.user_id === user.id);
     return userTickets.map(ticket => (
       <Ticket 
         key={ticket.id} 
@@ -53,8 +74,8 @@ const Tickets = ({ user, setUser }) => {
 
   return (
     <div className="tickets-container">
-      <h3>Your Tickets for {movie.title}:</h3>
-      {movie.tickets && movie.tickets.length > 0 ? (
+      <h3>Your Tickets for {currentMovie.title}:</h3>
+      {currentMovie.tickets && currentMovie.tickets.length > 0 ? (
         <ul className="tickets-list">
           {renderTickets()}
         </ul>

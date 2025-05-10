@@ -1,12 +1,14 @@
-import MovieCard from './MovieCard'
+import { useContext } from 'react';
+import UserContext from '../context/UserContext';
+import MovieCard from './MovieCard';
 
+const UserProfile = () => {
+  const { user } = useContext(UserContext);
 
-const UserProfile = ({ user, setUser }) => {
-
-  if (!user) return <div>Loading...</div>;  
+  if (!user) return <div>Loading...</div>;
 
   console.log("user from UserProfile:", user);
-  
+
   function renderUserMovies() {
     const uniqueMovies = new Map();
 
@@ -15,9 +17,9 @@ const UserProfile = ({ user, setUser }) => {
         uniqueMovies.set(ticket.movie.id, ticket.movie);
       }
     });
-    
+
     return Array.from(uniqueMovies.values()).map(movie => (
-      <MovieCard key={movie.id} movie={movie} user={user} setUser={setUser}/>
+      <MovieCard key={movie.id} movie={movie} />
     ));
   }
 
@@ -32,10 +34,10 @@ const UserProfile = ({ user, setUser }) => {
           </ul>
         ) : (
           <p>No movie to watch yet.</p>
-        )}        
+        )}
       </div>
     </div>
   );
 };
 
-export default UserProfile
+export default UserProfile;

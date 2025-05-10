@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import UserContext from '../context/UserContext';
 import Movie from './Movie';
 import "../styling/movie.css";
 
-function Home({ user, setUser }) {
-
+function Home() {
+  const { user, setUser } = useContext(UserContext);
   const [ movies, setMovies ] = useState([])
 
   useEffect(() => {

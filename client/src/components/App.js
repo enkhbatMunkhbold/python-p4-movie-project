@@ -6,9 +6,9 @@ import Home from "./Home";
 import Login from "./Login";
 import UserProfile from "./UserProfile";
 import Tickets from "./Tickets";
+import UserContext from '../context/UserContext';
 
 function App() {
-
   const [user, setUser] = useState(null);  
 
   useEffect(() => {
@@ -25,37 +25,29 @@ function App() {
     });
   }, []);  
 
-  function handleLogout() {   
-    fetch("/logout", {
-      method: "DELETE",
-    }).then((r) => {
-      if (r.ok) {
-        setUser(null);
-      }
-    });
-  }
-
   return (
-    <Router>
-      <NavBar user={user} onLogout={handleLogout} />
-      <main>
-        {user ? (
-          <Routes>
-            <Route path="/" element={<Home user={user} setUser={setUser} />} />
-            <Route path="/profile" element={<UserProfile user={user} setUser={setUser}/>}/>
-            <Route path="/tickets" element={<Tickets user={user} setUser={setUser}/>} />
-            <Route path="*" element={<h1>Page Not Found</h1>} />
-          </Routes>
-        ) : (
-          <Routes>
-            <Route path="/signup" element={<SignUp setUser={setUser} />} />
-            <Route path="/login" element={<Login setUser={setUser} />} />
-            <Route path="/" element={<Home user={user} setUser={setUser} />} />
-            <Route path="*" element={<h1>Page Not Found</h1>} />
-          </Routes>
-        )}
-      </main>
-    </Router>
+    <UserContext.Provider value={{ user, setUser }}>
+      <Router>
+        <NavBar />
+        <main>
+          {user ? (
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/profile" element={<UserProfile />} />
+              <Route path="/tickets" element={<Tickets />} />
+              <Route path="*" element={<h1>Page Not Found</h1>} />
+            </Routes>
+          ) : (
+            <Routes>
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Home />} />
+              <Route path="*" element={<h1>Page Not Found</h1>} />
+            </Routes>
+          )}
+        </main>
+      </Router>
+    </UserContext.Provider>
   );
 }
 
