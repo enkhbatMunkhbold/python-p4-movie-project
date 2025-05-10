@@ -12,10 +12,16 @@ const Tickets = ({ user, setUser }) => {
   }
 
   function handleDeleteTicket(ticketId) {
-    setUser(prevUser => ({
-      ...prevUser,
-      tickets: prevUser.tickets.filter(ticket => ticket.id !== ticketId),
-    }));
+    console.log("Before delete:", user);
+    setUser(prevUser => {
+      const updatedUser = {
+        ...prevUser,
+        tickets: prevUser.tickets.filter(ticket => ticket.id !== ticketId),
+      };
+      console.log("After delete:", updatedUser);
+      return updatedUser;
+    });
+    navigate(-1); // Navigate back to the previous page after updating
   }
 
   function handleEditSave(editedTicket) {
@@ -28,6 +34,7 @@ const Tickets = ({ user, setUser }) => {
         tickets: updatedTickets
       };
     });
+    navigate(-1); // Navigate back to the previous page after updating
   }
 
   function renderTickets() {

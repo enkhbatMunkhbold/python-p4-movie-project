@@ -1,7 +1,7 @@
 import '../styling/movieCard.css'
 import { useNavigate } from 'react-router-dom';
 
-const MovieCard = ({ movie, user, setUser }) => {
+const MovieCard = ({ movie }) => {
   const navigate = useNavigate();
   
   if (!movie) return null;
