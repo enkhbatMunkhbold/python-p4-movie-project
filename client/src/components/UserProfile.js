@@ -1,20 +1,43 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import UserContext from '../context/UserContext';
 import MovieCard from './MovieCard';
 
 const UserProfile = () => {
   const { user } = useContext(UserContext);
+  const [userMovies, setUserMovies] = useState([]); 
 
-  if (!user) return <div>Loading...</div>;
+  useEffect(() => {
+    fetch("/movies")
+    .then(r => r.json())
+    .then(movies => {
+      const filteredMovies = movies.map(movie => {
+        const movieTickets = user.tickets.filter(ticket => {
+          return ticket.movie.id === movie.id
+        });
+               
+        if (movieTickets.length > 0) {
+          return {
+            ...movie,
+            tickets: movieTickets
+          };
+        }
+        return null;             
+      })
+      setUserMovies(filteredMovies);
+    })
+    .catch(error => {
+      console.error("Error fetching movies:", error);
+      setUserMovies([]);
+    });
+  }, [user]);
 
-  console.log("user from UserProfile:", user);
+   if (!user) return <div>Loading...</div>;
 
   function renderUserMovies() {
     const uniqueMovies = new Map();
-
-    user.tickets.forEach(ticket => {
-      if (ticket.movie && !uniqueMovies.has(ticket.movie.id)) {
-        uniqueMovies.set(ticket.movie.id, ticket.movie);
+    userMovies.forEach(movie => {
+      if (movie && !uniqueMovies.has(movie.id)) {
+        uniqueMovies.set(movie.id, movie);
       }
     });
 

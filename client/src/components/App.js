@@ -23,7 +23,9 @@ function App() {
       console.error("Error checking session:", error)
       setUser(null)
     });
-  }, []);  
+  }, [setUser]);  
+
+  console.log("User from App:", user);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

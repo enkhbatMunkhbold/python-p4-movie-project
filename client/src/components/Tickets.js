@@ -6,6 +6,7 @@ import Ticket from './Ticket'
 const Tickets = () => {
   const { user, setUser } = useContext(UserContext);
   const location = useLocation();
+  const { movie } = location.state || {}; // Destructure movie from location.state
   const navigate = useNavigate();
   const [currentMovie, setCurrentMovie] = useState(location.state?.movie);
 
@@ -14,8 +15,11 @@ const Tickets = () => {
     return null;
   }
 
+  const currentMovieTickets = user.tickets.filter(ticket => {
+    return ticket.movie.id === movie.id
+  });
+
   function handleDeleteTicket(ticketId) {
-    // Update user state
     setUser(prevUser => {
       const updatedUser = {
         ...prevUser,
@@ -23,46 +27,40 @@ const Tickets = () => {
       };
       return updatedUser;
     });
-
-    // Update movie state
+  
     setCurrentMovie(prevMovie => ({
       ...prevMovie,
       tickets: prevMovie.tickets.filter(ticket => ticket.id !== ticketId)
     }));
   }
 
-  function handleEditSave(editedTicket) {
-    // Ensure the edited ticket has the movie data
+  function handleEditSave(editedTicket) {  
     const ticketWithMovie = {
       ...editedTicket,
       movie: currentMovie
     };
 
-    // Update user state
-    setUser(prevUser => {
-      const updatedTickets = prevUser.tickets.map(ticket => 
-        ticket.id === editedTicket.id ? ticketWithMovie : ticket
-      );
-      return {
-        ...prevUser,
-        tickets: updatedTickets
-      };
-    });
-
-    // Update movie state
     setCurrentMovie(prevMovie => ({
       ...prevMovie,
       tickets: prevMovie.tickets.map(ticket => 
         ticket.id === editedTicket.id ? ticketWithMovie : ticket
       )
     }));
+  
+    setUser(prevUser => {
+      const updatedTickets = prevUser.tickets.map(ticket => 
+        ticket.id === editedTicket.id ? editedTicket : ticket
+      );
+      return {
+        ...prevUser,
+        tickets: updatedTickets
+      };
+    });
+    
   }
 
-  function renderTickets() {
-    if (!currentMovie.tickets) return null;
-    
-    const userTickets = currentMovie.tickets.filter(ticket => ticket.user_id === user.id);
-    return userTickets.map(ticket => (
+  function renderTickets() {      
+    return currentMovieTickets.map(ticket => (
       <Ticket 
         key={ticket.id} 
         ticket={ticket} 
@@ -74,8 +72,8 @@ const Tickets = () => {
 
   return (
     <div className="tickets-container">
-      <h3>Your Tickets for {currentMovie.title}:</h3>
-      {currentMovie.tickets && currentMovie.tickets.length > 0 ? (
+      <h3>Your Tickets for {movie.title}:</h3>
+      {movie.tickets && movie.tickets.length > 0 ? (
         <ul className="tickets-list">
           {renderTickets()}
         </ul>
