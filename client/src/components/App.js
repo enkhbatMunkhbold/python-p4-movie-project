@@ -25,8 +25,6 @@ function App() {
     });
   }, [setUser]);  
 
-  console.log("User from App:", user);
-
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <Router>

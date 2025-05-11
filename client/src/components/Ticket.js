@@ -52,8 +52,6 @@ const Ticket = ({ ticket, onEditSave, onDeleteTicket }) => {
       if (response.ok) {
         const updatedTicketData = await response.json();
 
-        console.log("updatedTicketData from Ticket:", updatedTicketData);
-
         onEditSave(updatedTicketData);
         setIsEditing(false);
       } else {

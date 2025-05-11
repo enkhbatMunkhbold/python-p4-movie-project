@@ -6,7 +6,7 @@ import Ticket from './Ticket'
 const Tickets = () => {
   const { user, setUser } = useContext(UserContext);
   const location = useLocation();
-  const { movie } = location.state || {}; // Destructure movie from location.state
+  const { movie } = location.state || {};
   const navigate = useNavigate();
   const [currentMovie, setCurrentMovie] = useState(location.state?.movie);
 
@@ -18,6 +18,7 @@ const Tickets = () => {
   const currentMovieTickets = user.tickets.filter(ticket => {
     return ticket.movie.id === movie.id
   });
+
 
   function handleDeleteTicket(ticketId) {
     setUser(prevUser => {
@@ -59,7 +60,10 @@ const Tickets = () => {
     
   }
 
-  function renderTickets() {      
+  function renderTickets() { 
+    if (!currentMovieTickets || currentMovieTickets.length === 0) {
+      navigate('/profile'); 
+    }     
     return currentMovieTickets.map(ticket => (
       <Ticket 
         key={ticket.id} 
