@@ -95,7 +95,7 @@ class Ticket(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates='tickets')
     movie = db.relationship('Movie', back_populates='tickets')
 
-    serialize_rules = ('-user.tickets', '-movie.tickets')
+    serialize_rules = ('-movie.tickets',)
 
     def to_dict(self):
         return {

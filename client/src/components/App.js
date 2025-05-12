@@ -13,16 +13,19 @@ function App() {
 
   useEffect(() => {
     fetch("/check_session")
-    .then(r => {
-      if(r.ok) {
-        r.json().then(user => setUser(user));
-      } else if (r.status === 204) {
-        setUser(null)
-      }
-    }).catch(error => {
-      console.error("Error checking session:", error)
-      setUser(null)
-    });
+      .then(r => {
+        if (r.ok) {
+          return r.json().then(user => setUser(user));
+        } else if (r.status === 204) {
+          setUser(null); // No content, set user to null
+        } else {
+          throw new Error(`HTTP error! Status: ${r.status}`);
+        }
+      })
+      .catch(error => {
+        console.error("Error checking session:", error);
+        setUser(null);
+      });
   }, [setUser]);  
 
   return (

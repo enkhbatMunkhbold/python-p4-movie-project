@@ -7,6 +7,8 @@ const UserProfile = () => {
   const [userMovies, setUserMovies] = useState([]); 
 
   useEffect(() => {
+    if (!user) return;
+
     fetch("/movies")
     .then(r => r.json())
     .then(movies => {
@@ -22,7 +24,7 @@ const UserProfile = () => {
           };
         }
         return null;             
-      })
+      }).filter(Boolean)
       setUserMovies(filteredMovies);
     })
     .catch(error => {

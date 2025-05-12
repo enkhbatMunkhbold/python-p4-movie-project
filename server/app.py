@@ -34,22 +34,6 @@ class MovieById(Resource):
         return {}, 204
 api.add_resource(MovieById, '/movies/<int:movie_id>')
 
-# class UserMovies(Resource):
-#     def get(self):
-#         user_id = session.get('user_id')
-#         if not user_id:
-#             return {'error': 'User not logged in'}, 401
-        
-#         user = User.query.get(user_id)
-#         if not user:
-#             return {'error': 'User not found'}, 404
-        
-#         movies = Movie.query.join(Ticket).filter(Ticket.user_id == user_id).distinct().all()
-#         movies_data = [{"id": movie.id, "title": movie.title, "tickets": movie.tickets} for movie in movies]
-#         return make_response(jsonify(movies), 200)
-    
-# api.add_resource(UserMovies, '/me/movies')
-
 class Tickets(Resource):
     def get(self):
         tickets = [ticket.to_dict() for ticket in Ticket.query.all()]
