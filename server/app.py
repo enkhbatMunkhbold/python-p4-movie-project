@@ -19,11 +19,11 @@ class Movies(Resource):
 api.add_resource(Movies, '/movies')
 
 class MovieById(Resource):
-    def get(self, movie_id):
-        movie = Movie.query.get(movie_id)
-        if not movie:
-            return {'error': 'Movie not found'}, 404
-        return make_response(jsonify(movie.to_dict()), 200)
+    # def get(self, movie_id):
+    #     movie = Movie.query.get(movie_id)
+    #     if not movie:
+    #         return {'error': 'Movie not found'}, 404
+    #     return make_response(jsonify(movie.to_dict()), 200)
     
     def delete(self, movie_id):
         movie = Movie.query.get(movie_id)
@@ -125,9 +125,12 @@ class CheckSession(Resource):
         if user_id:
             user = User.query.get(user_id)
             if user:
+                for movie in user.movies:
+                    movie.tickets = [ticket for ticket in movie.tickets if ticket.user_id == user.id]   
+                
                 return make_response( jsonify(user.to_dict()), 200 )         
         return {}, 204
-    
+
 api.add_resource(CheckSession, '/check_session')
 
 class Login(Resource):

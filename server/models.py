@@ -12,17 +12,19 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String(80), unique=True, nullable=False)
     _password_hash = db.Column(db.String, nullable=False)
 
-    tickets = db.relationship('Ticket', back_populates='user', cascade='all, delete-orphan')
-    movies = association_proxy('tickets', 'movie')
+    # tickets = db.relationship('Ticket', back_populates='user', cascade='all, delete-orphan')
+    # movies = association_proxy('tickets', 'movie')
+    movies = db.relationship('Movie', secondary='tickets', viewonly=True)
 
     serialize_rules = ('-tickets.user', '-_password_hash')
+    # serialize_rules = ('-_password_hash',)
 
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'username': self.username,
-            'tickets': [ticket.to_dict() for ticket in self.tickets]
-        }
+    # def to_dict(self):
+    #     return {
+    #         'id': self.id,
+    #         'username': self.username,
+    #         'tickets': [ticket.to_dict() for ticket in self.tickets]
+    #     }
 
     @property
     def password_hash(self):
@@ -55,10 +57,10 @@ class Movie(db.Model, SerializerMixin):
     genre = db.Column(db.String(80), nullable=False)
     price = db.Column(db.Float(precision=2), nullable=False)
 
-    tickets = db.relationship('Ticket', back_populates='movie', cascade='all, delete-orphan')
-    users = association_proxy('tickets', 'user')
+    tickets = db.relationship('Ticket', backref='movie', cascade='all, delete-orphan', lazy=True)
+    # users = association_proxy('tickets', 'user')
 
-    serialize_rules = ('-users',)
+    serialize_rules = ('-users', '-tickets.movie',)
 
     @validates('title', 'genre')
     def validate_non_empty_string(self, key, value):
@@ -92,19 +94,19 @@ class Ticket(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  
     movie_id = db.Column(db.Integer, db.ForeignKey('movies.id'), nullable=False)
 
-    user = db.relationship('User', back_populates='tickets')
-    movie = db.relationship('Movie', back_populates='tickets')
+    # user = db.relationship('User', back_populates='tickets')
+    # movie = db.relationship('Movie', back_populates='tickets')
 
     serialize_rules = ('-movie.tickets',)
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "ticket_number": self.ticket_number,
-            "total_price": self.total_price,
-            "time": self.time,
-            "movie": self.movie.to_dict() if self.movie else None
-    }
+    # def to_dict(self):
+    #     return {
+    #         "id": self.id,
+    #         "ticket_number": self.ticket_number,
+    #         "total_price": self.total_price,
+    #         "time": self.time,
+    #         "movie": self.movie.to_dict() if self.movie else None
+    # }
 
     @validates('total_price')
     def validate_price(self, _, price):
